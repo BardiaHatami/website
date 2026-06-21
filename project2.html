@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Study Planner Pro</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Study Planner Pro</h1>
+    <p>Plan Your Tasks Efficiently</p>
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Add Task</h2>
+
+        <div class="input-area">
+
+            <input
+            type="text"
+            id="taskInput"
+            placeholder="Task Name">
+
+            <select id="category">
+                <option>School</option>
+                <option>Programming</option>
+                <option>Personal</option>
+            </select>
+
+            <select id="priority">
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+            </select>
+
+            <button onclick="addTask()">Add</button>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Statistics</h2>
+
+        <p>Total Tasks:
+            <span id="total">0</span>
+        </p>
+
+        <p>Completed:
+            <span id="completed">0</span>
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Tasks</h2>
+
+        <div id="taskList"></div>
+
+    </div>
+
+    <div class="card">
+        <a href="index.html" class="btn">
+            Back to Home
+        </a>
+    </div>
+
+</div>
+
+<script>
+
+let tasks =
+JSON.parse(localStorage.getItem("tasks")) || [];
+
+render();
+
+function addTask(){
+
+let input =
+document.getElementById("taskInput");
+
+let category =
+document.getElementById("category").value;
+
+let priority =
+document.getElementById("priority").value;
+
+if(input.value.trim() === ""){
+return;
+}
+
+tasks.push({
+name: input.value,
+category: category,
+priority: priority,
+done: false
+});
+
+input.value = "";
+
+save();
+render();
+
+}
+
+function toggleTask(index){
+
+tasks[index].done =
+!tasks[index].done;
+
+save();
+render();
+
+}
+
+function deleteTask(index){
+
+tasks.splice(index,1);
+
+save();
+render();
+
+}
+
+function save(){
+
+localStorage.setItem(
+"tasks",
+JSON.stringify(tasks)
+);
+
+}
+
+function render(){
+
+let list =
+document.getElementById("taskList");
+
+list.innerHTML = "";
+
+let completedCount = 0;
+
+for(let i=0;i<tasks.length;i++){
+
+if(tasks[i].done){
+completedCount++;
+}
+
+let div =
+document.createElement("div");
+
+div.className = "card";
+
+div.innerHTML =
+
+"<h3>" + tasks[i].name + "</h3>" +
+
+"<p>Category: " +
+tasks[i].category +
+"</p>" +
+
+"<p>Priority: " +
+tasks[i].priority +
+"</p>" +
+
+"<button onclick='toggleTask(" +
+i +
+")'>" +
+
+(tasks[i].done ?
+"Completed ✅" :
+"Mark Done")
+
++
+
+"</button> " +
+
+"<button onclick='deleteTask(" +
+i +
+")'>Delete</button>";
+
+list.appendChild(div);
+
+}
+
+document.getElementById("total")
+.textContent = tasks.length;
+
+document.getElementById("completed")
+.textContent = completedCount;
+
+}
+
+</script>
+
+</body>
+</html>

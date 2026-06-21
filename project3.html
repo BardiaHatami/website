@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quiz App</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Quiz App</h1>
+    <p>Test Your Knowledge</p>
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2 id="question">Question</h2>
+
+        <div id="answers">
+
+            <button class="btn answer-btn" onclick="checkAnswer(0)"></button>
+
+            <button class="btn answer-btn" onclick="checkAnswer(1)"></button>
+
+            <button class="btn answer-btn" onclick="checkAnswer(2)"></button>
+
+            <button class="btn answer-btn" onclick="checkAnswer(3)"></button>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <p>Score: <span id="score">0</span></p>
+
+    </div>
+
+    <div class="card">
+        <a href="index.html" class="btn">Back to Home</a>
+    </div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+question: "What does HTML stand for?",
+answers: [
+"Hyper Text Markup Language",
+"High Text Machine Language",
+"Home Tool Markup Language",
+"Hyper Tool Multi Language"
+],
+correct: 0
+},
+
+{
+question: "Which language is used for AI the most?",
+answers: [
+"CSS",
+"Python",
+"HTML",
+"PHP"
+],
+correct: 1
+},
+
+{
+question: "What does CSS do?",
+answers: [
+"Database",
+"Styling",
+"Server",
+"AI"
+],
+correct: 1
+},
+
+{
+question: "Which language makes websites interactive?",
+answers: [
+"HTML",
+"Python",
+"JavaScript",
+"SQL"
+],
+correct: 2
+},
+
+{
+question: "Who created this portfolio?",
+answers: [
+"Google",
+"Bardia",
+"Microsoft",
+"Apple"
+],
+correct: 1
+}
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuestion(){
+
+if(currentQuestion >= questions.length){
+
+document.querySelector(".card").innerHTML =
+
+"<h2>Quiz Finished 🎉</h2>" +
+
+"<p>Your Score: " +
+
+score +
+
+" / " +
+
+questions.length +
+
+"</p>" +
+
+"<button class='btn' onclick='restartQuiz()'>Restart</button>";
+
+return;
+}
+
+document.getElementById("question").textContent =
+questions[currentQuestion].question;
+
+let buttons =
+document.getElementsByClassName("answer-btn");
+
+for(let i = 0; i < 4; i++){
+
+buttons[i].textContent =
+questions[currentQuestion].answers[i];
+
+}
+
+}
+
+function checkAnswer(index){
+
+if(index === questions[currentQuestion].correct){
+
+score++;
+
+document.getElementById("score").textContent =
+score;
+
+}
+
+currentQuestion++;
+
+loadQuestion();
+
+}
+
+function restartQuiz(){
+
+currentQuestion = 0;
+score = 0;
+
+location.reload();
+
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

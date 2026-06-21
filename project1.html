@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chatbot</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="header">
+    <h1>AI Chatbot</h1>
+    <p>Simple Smart Bot</p>
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <div id="chatBox" class="chat-box"></div>
+
+        <div class="input-area">
+            <input id="input" type="text" placeholder="Type...">
+            <button onclick="send()">Send</button>
+            <button onclick="clearChat()">Clear</button>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <a href="index.html" class="btn">Back</a>
+    </div>
+
+</div>
+
+<script>
+
+function send(){
+
+let input = document.getElementById("input");
+let text = input.value.trim();
+
+if(text === "") return;
+
+let chat = document.getElementById("chatBox");
+
+// user
+let u = document.createElement("div");
+u.className = "user";
+u.textContent = "You: " + text;
+chat.appendChild(u);
+
+let lower = text.toLowerCase();
+let reply = "";
+
+// simple logic
+if(lower.includes("hello") || lower.includes("hi")){
+reply = "Hello 👋";
+}
+else if(lower.includes("how are you")){
+reply = "I'm fine 😊";
+}
+else if(lower.includes("name")){
+reply = "I'm your chatbot 🤖";
+}
+else{
+reply = "I don't understand 🤔";
+}
+
+// bot
+let b = document.createElement("div");
+b.className = "bot";
+b.textContent = "Bot: " + reply;
+chat.appendChild(b);
+
+input.value = "";
+chat.scrollTop = chat.scrollHeight;
+
+}
+
+function clearChat(){
+document.getElementById("chatBox").innerHTML = "";
+}
+
+</script>
+
+</body>
+</html>
