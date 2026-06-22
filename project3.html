@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Quiz App</title>
+<title>Quiz Pro</title>
 
 <link rel="stylesheet" href="style.css">
 </head>
@@ -12,171 +12,136 @@
 <body>
 
 <div class="header">
-    <h1>Quiz App</h1>
-    <p>Test Your Knowledge</p>
+    <h1>Quiz Challenge</h1>
+    <p>Test your knowledge</p>
 </div>
 
 <div class="container">
 
-    <div class="card">
+<!-- START SCREEN -->
+<div class="card" id="startBox">
+    <h2>Ready?</h2>
+    <p>10 questions • No time limit pressure</p>
+    <button class="btn" onclick="startQuiz()">Start Quiz</button>
+</div>
 
-        <h2 id="question">Question</h2>
+<!-- QUIZ BOX -->
+<div class="card" id="quizBox" style="display:none;">
 
-        <div id="answers">
+    <div id="progress"></div>
 
-            <button class="btn answer-btn" onclick="checkAnswer(0)"></button>
+    <h2 id="question"></h2>
 
-            <button class="btn answer-btn" onclick="checkAnswer(1)"></button>
+    <div id="answers"></div>
 
-            <button class="btn answer-btn" onclick="checkAnswer(2)"></button>
+</div>
 
-            <button class="btn answer-btn" onclick="checkAnswer(3)"></button>
-
-        </div>
-
-    </div>
-
-    <div class="card">
-
-        <p>Score: <span id="score">0</span></p>
-
-    </div>
-
-    <div class="card">
-        <a href="index.html" class="btn">Back to Home</a>
-    </div>
+<!-- RESULT -->
+<div class="card" id="resultBox" style="display:none;">
+    <h2>Quiz Finished 🎉</h2>
+    <p id="scoreText"></p>
+    <button class="btn" onclick="restart()">Restart</button>
+    <a class="btn" href="index.html">Home</a>
+</div>
 
 </div>
 
 <script>
 
 const questions = [
-
 {
-question: "What does HTML stand for?",
-answers: [
-"Hyper Text Markup Language",
-"High Text Machine Language",
-"Home Tool Markup Language",
-"Hyper Tool Multi Language"
-],
-correct: 0
+q:"What does HTML stand for?",
+a:["Hyper Text Markup Language","High Text Machine Language","Home Tool Markup Language","None"],
+c:0
 },
-
 {
-question: "Which language is used for AI the most?",
-answers: [
-"CSS",
-"Python",
-"HTML",
-"PHP"
-],
-correct: 1
+q:"Which is best for AI?",
+a:["CSS","Python","HTML","Photoshop"],
+c:1
 },
-
 {
-question: "What does CSS do?",
-answers: [
-"Database",
-"Styling",
-"Server",
-"AI"
-],
-correct: 1
+q:"JavaScript is used for?",
+a:["Styling","Logic","Database","AI only"],
+c:1
 },
-
 {
-question: "Which language makes websites interactive?",
-answers: [
-"HTML",
-"Python",
-"JavaScript",
-"SQL"
-],
-correct: 2
+q:"CSS means?",
+a:["Creative Style System","Cascading Style Sheets","Computer Style Syntax","None"],
+c:1
 },
-
 {
-question: "Who created this portfolio?",
-answers: [
-"Google",
-"Bardia",
-"Microsoft",
-"Apple"
-],
-correct: 1
+q:"Who created this portfolio?",
+a:["Bardia","Google","Microsoft","Apple"],
+c:0
 }
-
 ];
 
-let currentQuestion = 0;
+let index = 0;
 let score = 0;
+
+function startQuiz(){
+document.getElementById("startBox").style.display="none";
+document.getElementById("quizBox").style.display="block";
+loadQuestion();
+}
 
 function loadQuestion(){
 
-if(currentQuestion >= questions.length){
+let q = questions[index];
 
-document.querySelector(".card").innerHTML =
+document.getElementById("question").textContent = q.q;
 
-"<h2>Quiz Finished 🎉</h2>" +
+document.getElementById("progress").textContent =
+"Question " + (index+1) + " / " + questions.length;
 
-"<p>Your Score: " +
+let answersDiv = document.getElementById("answers");
+answersDiv.innerHTML = "";
 
-score +
+q.a.forEach((ans,i)=>{
 
-" / " +
+let btn = document.createElement("button");
+btn.className = "btn";
+btn.style.display="block";
+btn.style.margin="10px 0";
+btn.textContent = ans;
 
-questions.length +
+btn.onclick = ()=>checkAnswer(i);
 
-"</p>" +
+answersDiv.appendChild(btn);
 
-"<button class='btn' onclick='restartQuiz()'>Restart</button>";
-
-return;
-}
-
-document.getElementById("question").textContent =
-questions[currentQuestion].question;
-
-let buttons =
-document.getElementsByClassName("answer-btn");
-
-for(let i = 0; i < 4; i++){
-
-buttons[i].textContent =
-questions[currentQuestion].answers[i];
+});
 
 }
 
-}
+function checkAnswer(i){
 
-function checkAnswer(index){
-
-if(index === questions[currentQuestion].correct){
-
+if(i === questions[index].c){
 score++;
-
-document.getElementById("score").textContent =
-score;
-
 }
 
-currentQuestion++;
+index++;
 
+if(index < questions.length){
 loadQuestion();
+}else{
+showResult();
+}
 
 }
 
-function restartQuiz(){
+function showResult(){
 
-currentQuestion = 0;
-score = 0;
+document.getElementById("quizBox").style.display="none";
+document.getElementById("resultBox").style.display="block";
 
+document.getElementById("scoreText").textContent =
+"Your Score: " + score + " / " + questions.length;
+
+}
+
+function restart(){
 location.reload();
-
 }
-
-loadQuestion();
 
 </script>
 
