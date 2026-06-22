@@ -3,145 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Planner</title>
 
-<title>Quiz Pro</title>
+<style>
+body{
+    background:#0b0b0d;
+    color:#f5f5f5;
+    font-family:Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
 
-<link rel="stylesheet" href="style.css">
+.app{
+    width:360px;
+    background:#151515;
+    border:1px solid #2a2a2a;
+    border-radius:12px;
+    padding:15px;
+}
+
+h2{
+    text-align:center;
+    color:#f5d06f;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    background:#111;
+    border:none;
+    color:#fff;
+    outline:none;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    background:#f5d06f;
+    border:none;
+    font-weight:bold;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.task{
+    background:#1a1a1a;
+    margin-top:10px;
+    padding:10px;
+    border-radius:8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border:1px solid #2a2a2a;
+}
+
+.task.done{
+    text-decoration:line-through;
+    opacity:0.6;
+}
+
+.delete{
+    color:red;
+    cursor:pointer;
+}
+</style>
+
 </head>
 
 <body>
 
-<div class="header">
-    <h1>Quiz Challenge</h1>
-    <p>Test your knowledge</p>
-</div>
+<div class="app">
 
-<div class="container">
+    <h2>Study Planner</h2>
 
-<!-- START SCREEN -->
-<div class="card" id="startBox">
-    <h2>Ready?</h2>
-    <p>10 questions • No time limit pressure</p>
-    <button class="btn" onclick="startQuiz()">Start Quiz</button>
-</div>
+    <input id="taskInput" placeholder="Enter task...">
+    <button onclick="addTask()">Add Task</button>
 
-<!-- QUIZ BOX -->
-<div class="card" id="quizBox" style="display:none;">
-
-    <div id="progress"></div>
-
-    <h2 id="question"></h2>
-
-    <div id="answers"></div>
-
-</div>
-
-<!-- RESULT -->
-<div class="card" id="resultBox" style="display:none;">
-    <h2>Quiz Finished 🎉</h2>
-    <p id="scoreText"></p>
-    <button class="btn" onclick="restart()">Restart</button>
-    <a class="btn" href="index.html">Home</a>
-</div>
+    <div id="taskList"></div>
 
 </div>
 
 <script>
 
-const questions = [
-{
-q:"What does HTML stand for?",
-a:["Hyper Text Markup Language","High Text Machine Language","Home Tool Markup Language","None"],
-c:0
-},
-{
-q:"Which is best for AI?",
-a:["CSS","Python","HTML","Photoshop"],
-c:1
-},
-{
-q:"JavaScript is used for?",
-a:["Styling","Logic","Database","AI only"],
-c:1
-},
-{
-q:"CSS means?",
-a:["Creative Style System","Cascading Style Sheets","Computer Style Syntax","None"],
-c:1
-},
-{
-q:"Who created this portfolio?",
-a:["Bardia","Google","Microsoft","Apple"],
-c:0
-}
-];
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-let index = 0;
-let score = 0;
+function render(){
 
-function startQuiz(){
-document.getElementById("startBox").style.display="none";
-document.getElementById("quizBox").style.display="block";
-loadQuestion();
+    let list = document.getElementById("taskList");
+    list.innerHTML = "";
+
+    tasks.forEach((t,i)=>{
+
+        let div = document.createElement("div");
+        div.className = "task " + (t.done ? "done" : "");
+
+        div.innerHTML = `
+            <span onclick="toggle(${i})">${t.text}</span>
+            <span class="delete" onclick="removeTask(${i})">X</span>
+        `;
+
+        list.appendChild(div);
+    });
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-function loadQuestion(){
+function addTask(){
 
-let q = questions[index];
+    let input = document.getElementById("taskInput");
 
-document.getElementById("question").textContent = q.q;
+    if(input.value.trim() === "") return;
 
-document.getElementById("progress").textContent =
-"Question " + (index+1) + " / " + questions.length;
+    tasks.push({text:input.value, done:false});
 
-let answersDiv = document.getElementById("answers");
-answersDiv.innerHTML = "";
-
-q.a.forEach((ans,i)=>{
-
-let btn = document.createElement("button");
-btn.className = "btn";
-btn.style.display="block";
-btn.style.margin="10px 0";
-btn.textContent = ans;
-
-btn.onclick = ()=>checkAnswer(i);
-
-answersDiv.appendChild(btn);
-
-});
-
+    input.value = "";
+    render();
 }
 
-function checkAnswer(i){
-
-if(i === questions[index].c){
-score++;
+function toggle(i){
+    tasks[i].done = !tasks[i].done;
+    render();
 }
 
-index++;
-
-if(index < questions.length){
-loadQuestion();
-}else{
-showResult();
+function removeTask(i){
+    tasks.splice(i,1);
+    render();
 }
 
-}
-
-function showResult(){
-
-document.getElementById("quizBox").style.display="none";
-document.getElementById("resultBox").style.display="block";
-
-document.getElementById("scoreText").textContent =
-"Your Score: " + score + " / " + questions.length;
-
-}
-
-function restart(){
-location.reload();
-}
+render();
 
 </script>
 

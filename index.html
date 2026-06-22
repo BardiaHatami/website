@@ -3,166 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Bardia | Portfolio</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
-    <h1>Bardia</h1>
-    <p>Python Developer | Web Developer | AI Learner</p>
-    <img src="profile.jpg" class="profile-pic">
-</div>
+<div class="bg-glow"></div>
+
+<!-- HERO -->
+<header class="hero">
+
+    <div class="hero-text">
+        <h1>Hi, I'm Bardia</h1>
+        <p>Self-taught Developer | Python • Web • AI</p>
+
+        <div class="hero-buttons">
+            <a href="#projects" class="btn">View Projects</a>
+            <a href="#contact" class="btn outline">Contact</a>
+        </div>
+    </div>
+
+    <img src="profile.jpg" class="hero-img">
+
+</header>
 
 <!-- NAV -->
-<div class="nav">
+<nav class="nav">
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
     <a href="#projects">Projects</a>
-    <a href="#timeline">Timeline</a>
+    <a href="#timeline">Journey</a>
     <a href="#achievements">Achievements</a>
     <a href="#contact">Contact</a>
-</div>
+</nav>
 
-<!-- MAIN CONTAINER -->
-<div class="container">
+<main class="container">
 
     <!-- ABOUT -->
-    <div id="about" class="card">
+    <section id="about" class="card">
         <h2>About Me</h2>
-        <p>
-            I am a self-learning programmer focused on Python, JavaScript and web development.
-            I enjoy building real projects and improving my skills every day.
-        </p>
-    </div>
+        <p>I am a self-taught developer building real-world projects using modern technologies.</p>
+    </section>
 
     <!-- SKILLS -->
-    <div id="skills" class="card">
+    <section id="skills" class="card">
         <h2>Skills</h2>
 
-        <div class="skills">
-            <span class="tag">Python</span>
-            <span class="tag">JavaScript</span>
-            <span class="tag">HTML</span>
-            <span class="tag">CSS</span>
-            <span class="tag">Problem Solving</span>
-            <span class="tag">GitHub</span>
-            <span class="tag">AI Basics</span>
+        <div class="skill">
+            <p>Python</p>
+            <div class="bar"><div class="fill python"></div></div>
+
+            <p>HTML</p>
+            <div class="bar"><div class="fill html"></div></div>
+
+            <p>CSS</p>
+            <div class="bar"><div class="fill css"></div></div>
+
+            <p>JavaScript</p>
+            <div class="bar"><div class="fill js"></div></div>
         </div>
-    </div>
+    </section>
 
     <!-- PROJECTS -->
-    <div id="projects" class="card">
+    <section id="projects" class="card">
         <h2>Projects</h2>
 
-        <ul class="project-list">
+        <div class="project-grid">
 
-            <li>
-                AI Chatbot Pro
-                <a href="project1.html" class="see-btn">View</a>
-            </li>
+            <div class="project-card">
+                <h3>AI Chatbot</h3>
+                <p>Rule-based smart chatbot</p>
+                <a class="see-btn" href="project1.html">Open</a>
+            </div>
 
-            <li>
-                Study Planner Pro
-                <a href="project2.html" class="see-btn">View</a>
-            </li>
+            <div class="project-card">
+                <h3>Study Planner</h3>
+                <p>Task management system</p>
+                <a class="see-btn" href="project2.html">Open</a>
+            </div>
 
-            <li>
-                Quiz App Pro
-                <a href="project3.html" class="see-btn">View</a>
-            </li>
+            <div class="project-card">
+                <h3>Quiz App</h3>
+                <p>Interactive quiz game</p>
+                <a class="see-btn" href="project3.html">Open</a>
+            </div>
 
-        </ul>
-    </div>
+        </div>
+    </section>
 
     <!-- TIMELINE -->
-    <div id="timeline" class="card">
-        <h2>Timeline</h2>
+    <section id="timeline" class="card">
+        <h2>Journey</h2>
 
         <div class="timeline">
-
-            <div class="item">
-                <h3>Started Programming</h3>
-                <p>Learned Python basics and logic.</p>
-            </div>
-
-            <div class="item">
-                <h3>First Projects</h3>
-                <p>Built calculator, chatbot, quiz app.</p>
-            </div>
-
-            <div class="item">
-                <h3>Web Development</h3>
-                <p>Learning HTML, CSS, JavaScript.</p>
-            </div>
-
-            <div class="item">
-                <h3>Future Goal</h3>
-                <p>Become a software engineer.</p>
-            </div>
-
+            <div class="item">Started Programming</div>
+            <div class="item">Built First Projects</div>
+            <div class="item">Learned Web Development</div>
+            <div class="item">Building Portfolio</div>
         </div>
-    </div>
+    </section>
 
-    <!-- 🏆 ACHIEVEMENTS -->
-    <div id="achievements" class="card">
-
+    <!-- ACHIEVEMENTS -->
+    <section id="achievements" class="card">
         <h2>Achievements</h2>
 
-        <div class="timeline">
-
-            <div class="item">
-                <h3>Programming Competition</h3>
-                <p>🥇 First Place – 4 Times (Coding Academy Contest)</p>
-            </div>
-
-            <div class="item">
-                <h3>Self Learning</h3>
-                <p>Learned Python and Web Development independently</p>
-            </div>
-
-            <div class="item">
-                <h3>Project Builder</h3>
-                <p>Built multiple real-world mini projects</p>
-            </div>
-
-        </div>
-
-    </div>
+        <div class="ach-item">🏆 4× Academy Champion</div>
+        <div class="ach-item">💻 Built Multiple Projects</div>
+        <div class="ach-item">📚 Self-Taught Developer</div>
+        <div class="ach-item">🚀 Consistent Learner</div>
+    </section>
 
     <!-- CONTACT -->
-    <div id="contact" class="card">
+    <section id="contact" class="card">
         <h2>Contact</h2>
+        <p>Email: bardiahatami@email.com</p>
+        <p>GitHub: github.com/BardiaHatami</p>
+    </section>
 
-        <p>Email: your@email.com</p>
-        <p>GitHub: github.com/yourusername</p>
-
-    </div>
-
-</div>
-
-<!-- SMOOTH CLICK HIGHLIGHT -->
-<script>
-
-document.querySelectorAll(".nav a").forEach(link => {
-    link.addEventListener("click", function(){
-
-        let target = document.querySelector(this.getAttribute("href"));
-
-        target.style.boxShadow = "0 0 20px rgba(245,208,111,0.5)";
-
-        setTimeout(()=>{
-            target.style.boxShadow = "none";
-        },800);
-
-    });
-});
-
-</script>
-
+</main>
 </body>
 </html>

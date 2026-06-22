@@ -3,170 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Chatbot</title>
 
-<title>AI Chatbot Ultra Pro</title>
+<style>
+body{
+    background:#0b0b0d;
+    color:#f5f5f5;
+    font-family:Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
 
-<link rel="stylesheet" href="style.css">
+.chat-box{
+    width:350px;
+    height:500px;
+    background:#151515;
+    border:1px solid #2a2a2a;
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+.header{
+    background:#111;
+    padding:15px;
+    text-align:center;
+    color:#f5d06f;
+    font-weight:bold;
+}
+
+.messages{
+    flex:1;
+    padding:10px;
+    overflow-y:auto;
+}
+
+.msg{
+    padding:8px 10px;
+    margin:5px 0;
+    border-radius:8px;
+    max-width:80%;
+}
+
+.user{
+    background:#f5d06f;
+    color:#111;
+    align-self:flex-end;
+}
+
+.bot{
+    background:#2a2a2a;
+    color:#fff;
+    align-self:flex-start;
+}
+
+.input-box{
+    display:flex;
+    border-top:1px solid #2a2a2a;
+}
+
+input{
+    flex:1;
+    padding:10px;
+    border:none;
+    outline:none;
+    background:#111;
+    color:#fff;
+}
+
+button{
+    background:#f5d06f;
+    border:none;
+    padding:10px 15px;
+    cursor:pointer;
+    font-weight:bold;
+}
+</style>
+
 </head>
 
 <body>
 
-<div class="header">
-    <h1>AI Chatbot Ultra Pro</h1>
-    <p>Advanced conversational AI (No API)</p>
-</div>
+<div class="chat-box">
 
-<div class="container">
+    <div class="header">AI Chatbot</div>
 
-    <div class="card">
+    <div id="messages" class="messages"></div>
 
-        <div id="chatBox" class="chat-box"></div>
-
-        <div class="input-area">
-            <input id="input" type="text" placeholder="Type a message...">
-            <button onclick="send()">Send</button>
-            <button onclick="clearChat()">Clear</button>
-        </div>
-
-    </div>
-
-    <div class="card">
-        <a href="index.html" class="btn">Back Home</a>
+    <div class="input-box">
+        <input id="input" placeholder="Type a message...">
+        <button onclick="sendMsg()">Send</button>
     </div>
 
 </div>
 
 <script>
+function sendMsg(){
 
-let chatBox = document.getElementById("chatBox");
+    let input = document.getElementById("input");
+    let text = input.value.trim();
 
-let userName = localStorage.getItem("username") || "";
-let history = JSON.parse(localStorage.getItem("chat_history")) || [];
+    if(text === "") return;
 
-/* LOAD OLD CHAT */
-window.onload = () => {
-    history.forEach(m => renderMessage(m.sender, m.text));
-};
+    addMessage(text, "user");
 
-/* SEND MESSAGE */
-function send(){
+    setTimeout(()=>{
+        addMessage(getResponse(text), "bot");
+    },500);
 
-let input = document.getElementById("input");
-let text = input.value.trim();
-if(text === "") return;
-
-renderMessage("user", text);
-save("user", text);
-
-let msg = text.toLowerCase();
-let reply = "";
-
-/* MEMORY */
-if(msg.includes("my name is")){
-    userName = text.split("is")[1].trim();
-    localStorage.setItem("username", userName);
-    reply = "Nice to meet you " + userName + " 😊";
+    input.value = "";
 }
 
-/* GREETING */
-else if(msg.includes("hello") || msg.includes("hi")){
-    reply = userName ? "Hello " + userName + " 👋" : "Hello 👋 What is your name?";
+function addMessage(text, type){
+
+    let msg = document.createElement("div");
+    msg.classList.add("msg", type);
+    msg.innerText = text;
+
+    document.getElementById("messages").appendChild(msg);
+    document.getElementById("messages").scrollTop = 999999;
 }
 
-/* HOW ARE YOU */
-else if(msg.includes("how are you")){
-    reply = "I'm doing great 😊 How about you?";
+function getResponse(text){
+
+text = text.toLowerCase();
+
+if(text.includes("hello"))
+    return "Hello! Nice to meet you.";
+
+if(text.includes("hi"))
+    return "Hi there!";
+
+if(text.includes("how are you"))
+    return "I'm doing great!";
+
+if(text.includes("what is your name"))
+    return "My name is AI Chatbot.";
+
+if(text.includes("who are you"))
+    return "I am an AI chatbot.";
+
+if(text.includes("python"))
+    return "Python is a powerful programming language.";
+
+if(text.includes("html"))
+    return "HTML builds the structure of websites.";
+
+if(text.includes("css"))
+    return "CSS styles websites.";
+
+if(text.includes("javascript"))
+    return "JavaScript adds interactivity.";
+
+if(text.includes("ai"))
+    return "AI stands for Artificial Intelligence.";
+
+if(text.includes("joke"))
+    return "Why do programmers hate nature? Too many bugs.";
+
+if(text.includes("bye"))
+    return "Goodbye!";
+
+return "I don't understand. Can you explain differently?";
 }
-
-/* HELP */
-else if(msg.includes("help")){
-    reply = "I can chat, remember your name, tell jokes, and answer basic questions 🤖";
-}
-
-/* JOKE */
-else if(msg.includes("joke")){
-    reply = "Why do programmers hate nature? Too many bugs 🐛😂";
-}
-
-/* PYTHON */
-else if(msg.includes("python")){
-    reply = "Python is powerful for AI, data science and automation 🐍";
-}
-
-/* AI */
-else if(msg.includes("ai")){
-    reply = "AI means Artificial Intelligence 🤖 It simulates human thinking.";
-}
-
-/* BYE */
-else if(msg.includes("bye")){
-    reply = "Goodbye 👋 have a nice day " + (userName || "");
-}
-
-/* DEFAULT SMART RESPONSE */
-else{
-    let responses = [
-        "Interesting 🤔 tell me more",
-        "I'm still learning 😅",
-        "Nice 👍",
-        "Can you explain more?"
-    ];
-    reply = responses[Math.floor(Math.random()*responses.length)];
-}
-
-/* typing effect */
-showTyping(() => {
-    renderMessage("bot", reply);
-    save("bot", reply);
-});
-
-input.value = "";
-}
-
-/* RENDER MESSAGE */
-function renderMessage(sender, text){
-
-let div = document.createElement("div");
-div.className = sender;
-
-div.innerHTML = sender === "user"
-? "You: " + text
-: "Bot: " + text;
-
-chatBox.appendChild(div);
-chatBox.scrollTop = chatBox.scrollHeight;
-
-}
-
-/* SAVE CHAT */
-function save(sender, text){
-history.push({sender, text});
-localStorage.setItem("chat_history", JSON.stringify(history));
-}
-
-/* CLEAR CHAT */
-function clearChat(){
-localStorage.removeItem("chat_history");
-chatBox.innerHTML = "";
-history = [];
-}
-
-/* TYPING EFFECT */
-function showTyping(callback){
-
-let typing = document.createElement("div");
-typing.className = "bot";
-typing.innerHTML = "Bot is typing...";
-chatBox.appendChild(typing);
-chatBox.scrollTop = chatBox.scrollHeight;
-
-setTimeout(()=>{
-typing.remove();
-callback();
-},800);
-
-}
-
 </script>
 
 </body>
